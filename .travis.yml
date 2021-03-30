@@ -27,9 +27,9 @@ jobs:
 deploy:
   provider: elasticbeanstalk
   region: "ap-south-1"
-  app: "docker-simple"
-  env: "Dockersimple-env"
-  bucket-name: "simple-docker-bucket"
+  app: "angular-docker"
+  env: "Angulardocker-env"
+  bucket-name: "angular-docker-bucket"
   bucket-path: "docker"
   on:
     branch: master
