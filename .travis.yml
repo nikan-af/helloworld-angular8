@@ -3,6 +3,8 @@ node_js:
   - "12.18.3"
 dist: trusty
 sudo: required
+addons:
+  chrome: stable
 services:
   - docker
 env:
@@ -12,5 +14,16 @@ branches:
   only:
   - master
 before_install:
+  - npm run build
   - docker build .
-
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "docker-app"
+  env: "docker-app-env"
+  bucket_name: "elasticbeanstalk-us-east-2-054384855372"
+  bucket_path: "docker-app"
+  on:
+      branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
