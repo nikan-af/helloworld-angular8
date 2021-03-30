@@ -19,5 +19,4 @@ jobs:
       script:
         - npm run test-headless
       after_script:
-        - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then
-            ./node_modules/.bin/codecov; fi
+        - ./node_modules/.bin/codecov;
