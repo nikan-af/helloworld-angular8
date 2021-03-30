@@ -15,14 +15,4 @@ branches:
   - master
 before_install:
   - docker build .
-deploy:
-  provider: elasticbeanstalk
-  region: "us-east-2"
-  app: "docker-app"
-  env: "docker-app-env"
-  bucket_name: "elasticbeanstalk-us-east-2-054384855372"
-  bucket_path: "docker-app"
-  on:
-      branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
+
