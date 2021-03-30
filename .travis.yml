@@ -14,7 +14,6 @@ branches:
   only:
   - master
 before_install:
-  - npm run build
   - docker build .
 deploy:
   provider: elasticbeanstalk
