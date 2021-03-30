@@ -1,30 +1,10 @@
-# Stage 1
-
-FROM node:10-alpine as build-step
-
-
-RUN mkdir -p /app
-
-
-WORKDIR /app
-
-
-COPY package.json /app
-
-
+FROM node:12-alpine as BUILD
+WORKDIR '/app'
+COPY package.json .
 RUN npm install
+COPY . .
+RUN npm run build
 
-
-COPY . /app
-
-
-RUN npm run build --prod
-
-
-# Stage 2
-
-
-FROM nginx:1.17.1-alpine
-
-
-COPY --from=build-step /app/dist /usr/share/nginx/html
+FROM nginx
+EXPOSE 80
+COPY --from=BUILD /app/dist /usr/share/nginx/html

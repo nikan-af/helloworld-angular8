@@ -13,25 +13,15 @@ env:
 branches:
   only:
   - master
-before_script:
-  - npm install -g @angular/cli
 before_install:
-  - docker build -t nikanaf/helloworld-angular8 .
-jobs:
-  include:
-    - stage: Test Coverage
-      script:
-        - npm run test-headless
-      after_script:
-        - bash <(curl -s https://codecov.io/bash)
-        - ./node_modules/.bin/codecov ./coverage/helloworld/coverage-final.json;
+  - docker build .
 deploy:
   provider: elasticbeanstalk
   region: "us-east-2"
-  app: "angular-helloworld"
-  env: "Angularhelloworld-env"
+  app: "docker-app"
+  env: "docker-app-env"
   bucket_name: "elasticbeanstalk-us-east-2-054384855372"
-  bucket_path: "angular-helloworld"
+  bucket_path: "docker-app"
   on:
       branch: master
   access_key_id: $AWS_ACCESS_KEY
