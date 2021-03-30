@@ -5,6 +5,8 @@ dist: trusty
 sudo: required
 addons:
   chrome: stable
+services:
+  - docker
 env:
   global:
     CODECOV_TOKEN=$CODECOV_TOKEN
@@ -13,6 +15,8 @@ branches:
   - master
 before_script:
   - npm install -g @angular/cli
+before_install:
+  - docker build -t nikanaf/helloworld-angular8 .
 jobs:
   include:
     - stage: Test Coverage
@@ -21,3 +25,15 @@ jobs:
       after_script:
         - bash <(curl -s https://codecov.io/bash)
         - ./node_modules/.bin/codecov ./coverage/helloworld/coverage-final.json;
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2"
+  app: "angular-helloworld"
+  env: "Angularhelloworld-env"
+  bucket_name: "elasticbeanstalk-us-east-2-054384855372"
+  bucket_path: "angular-helloworld"
+  on:
+      branch: master
+access_key_id: $AWS_ACCESS_KEY
+secret_access_key:
+    secure: $AWS_SECRET_KEY
