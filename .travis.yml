@@ -3,11 +3,21 @@ node_js:
   - "12.18.3"
 dist: trusty
 sudo: required
+addons:
+  chrome: stable
+env:
+  global:
+    CODECOV_TOKEN=$CODECOV_TOKEN
 branches:
   only:
   - master
 before_script:
   - npm install -g @angular/cli
-script:
-- npm run test-headless
-- ng build --prod --base-href https://t-palmer.github.io/travis-demo/
+jobs:
+  include:
+    - stage: Test Coverage
+      script:
+        - npm run test-headless
+      after_script:
+        - if [[ "$TRAVIS_TEST_RESULT" == 0 ]]; then
+            ./node_modules/.bin/codecov; fi
