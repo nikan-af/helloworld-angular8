@@ -13,16 +13,26 @@ env:
 branches:
   only:
   - master
-before_install:
-  - docker build .
+before_script:
+  - npm install -g @angular/cli
+  - ng build
+jobs:
+  include:
+    - stage: Test Coverage
+      script:
+        - npm run test-headless
+      after_script:
+        - bash <(curl -s https://codecov.io/bash)
+        - ./node_modules/.bin/codecov ./coverage/helloworld/coverage-final.json;
 deploy:
   provider: elasticbeanstalk
-  region: "us-east-2"
-  app: "docker-app"
-  env: "docker-app-env"
-  bucket_name: "elasticbeanstalk-us-east-2-054384855372"
-  bucket_path: "docker-app"
+  region: "ap-south-1"
+  app: "docker-simple"
+  env: "Dockersimple-env"
+  bucket-name: "simple-docker-bucket"
+  bucket-path: "docker"
   on:
-      branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_KEY
+    branch: master
+  skip_cleanup: true
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
