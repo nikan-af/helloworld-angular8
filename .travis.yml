@@ -1,8 +1,7 @@
+sudo: required
 language: node_js
 node_js:
-  - "12.18.3"
-dist: trusty
-sudo: required
+  - "stable"
 addons:
   chrome: stable
 services:
@@ -10,9 +9,6 @@ services:
 env:
   global:
     CODECOV_TOKEN=$CODECOV_TOKEN
-branches:
-  only:
-  - master
 before_script:
   - npm install -g @angular/cli
   - ng build
@@ -26,10 +22,10 @@ jobs:
         - ./node_modules/.bin/codecov ./coverage/helloworld/coverage-final.json;
 deploy:
   provider: elasticbeanstalk
-  region: "us-west-2"
+  region: "us-west-1"
   app: "hello-world-angular"
   env: "Helloworldangular-env"
-  bucket-name: "hello-world-angular"
+  bucket-name: "hello-world-angular2"
   bucket-path: "docker"
   on:
     branch: master
