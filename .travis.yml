@@ -26,10 +26,10 @@ jobs:
         - ./node_modules/.bin/codecov ./coverage/helloworld/coverage-final.json;
 deploy:
   provider: elasticbeanstalk
-  region: "ap-south-1"
-  app: "angular-docker"
-  env: "Angulardocker-env"
-  bucket-name: "angular-docker-bucket"
+  region: "us-west-2"
+  app: "hello-world-angular"
+  env: "Helloworldangular-env"
+  bucket-name: "hello-world-angular"
   bucket-path: "docker"
   on:
     branch: master
